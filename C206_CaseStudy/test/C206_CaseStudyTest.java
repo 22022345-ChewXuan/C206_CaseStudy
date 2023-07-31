@@ -16,6 +16,13 @@ public class C206_CaseStudyTest {
 		super();
 	}
 
+	@Test
+    public void testValidRegistration() {
+		C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "password1234");
+        assertTrue(result);
+    }
+
 	@Before
 	public void setUp() throws Exception {
 		a1 = new Auction("Jade", "made from pure material", 300, "19-07-1890", "A001", "don't overspend!", "09-09-2023", "5:00pm",
@@ -25,6 +32,62 @@ public class C206_CaseStudyTest {
 		
 		auctionList= new ArrayList<Auction>();
 	}
+
+    @Test
+    public void testInvalidEmail() {
+    	C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "invalidemail", "bidder", "password1234");
+        assertFalse(result);
+    }
+    
+    @Test
+    public void testValidRole() {
+		C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "password1234");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testValidRole1() {
+		C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "administrator", "password1234");
+        assertTrue(result);
+    }
+    
+    @Test
+    public void testValidRole2() {
+		C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "Auction Organizers", "password1234");
+        assertTrue(result);
+    }
+
+    @Test
+    public void testWeakPassword() {
+    	C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "weak");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testMissingName() {
+    	C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("", "johndoe@example.com", "bidder", "password1234");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testMissingEmailAndPassword() {
+    	C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "", "bidder", "");
+        assertFalse(result);
+    }
+    
+    @Test
+    public void testMissingRole() {
+    	C206_CaseStudy userRegistration = new C206_CaseStudy();
+        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "", "password1234");
+        assertFalse(result);
+    }
 
 
 	@Test
@@ -105,3 +168,4 @@ public class C206_CaseStudyTest {
 	}
 
 }
+
