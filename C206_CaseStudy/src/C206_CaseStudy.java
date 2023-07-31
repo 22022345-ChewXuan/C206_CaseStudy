@@ -87,6 +87,7 @@ public class C206_CaseStudy {
 
 	}
 
+	//valid password
 	private boolean checkPassword(String password) {
 		boolean correctLength = false;
 		if (password.length() >= 12) {
@@ -108,7 +109,8 @@ public class C206_CaseStudy {
 		}
 		return checkNumber && checkAlphabets && correctLength;
 	}
-
+	
+	//register user
 	public boolean registerUser(String name, String email, String role, String password) {
 		// Empty information
 		if (name.isEmpty() || email.isEmpty() || password.isEmpty())
@@ -132,7 +134,8 @@ public class C206_CaseStudy {
 		users.add(new User(name, email, role, password));
 		return true;
 	}
-
+	
+	//menu for user
 	public static void menuUser() {
 		Helper.line(80, "-");
 		System.out.println("USERS");
