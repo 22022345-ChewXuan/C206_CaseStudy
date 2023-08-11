@@ -1,39 +1,183 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-import java.util.Comparator;
-=======
->>>>>>> branch 'master' of https://github.com/22022345-ChewXuan/C206_CaseStudy.git
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class C206_CaseStudyTest {
+	//users 
+	private User validUser1;
+	private User validUser2;
+	private User validUser3;
+	private User invalidEmail;
+	private User weakPw;
+	private User missingName;
+	private User missEmailnPw;
+	private User missingRole;
+	
+	//auction
 	private Auction a1;
 	private Auction a2;
 	
-	private ArrayList<Auction> auctionList;
+	//items
+	private Items item1;
+	private Items item2;
+	private Items item3;
 	
+	//arraylist
+	private ArrayList<User> user;
+	private ArrayList<Auction> auctionList;
+	private ArrayList<Items> itemsList;
+
 	public C206_CaseStudyTest() {
 		super();
 	}
-
-<<<<<<< HEAD
-    private Items item1;
-    private Items item2;
-    private Items item3;
-=======
-	@Test
-    public void testValidRegistration() {
-		C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "password1234");
-        assertTrue(result);
-    }
-
+	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp_user() throws Exception {
+	    user = new ArrayList<User>();
+	    validUser1 = new User("John Lim", "johnlim@example.com", "bidder", "password1234");
+	    validUser2 = new User("John Doe", "johndoe@example.com", "administrator", "password1234");
+	    validUser3 = new User("John Doe", "johndoe@example.com", "Organizer", "password1234");
+	    invalidEmail = new User("John Doe", "invalidemail", "bidder", "password1234");
+	    weakPw = new User("John Doe", "johndoe@example.com", "bidder", "weak");
+	    missingName = new User("", "johndoe@example.com", "bidder", "password1234");
+	    missEmailnPw = new User("John Doe", "", "bidder", "");
+	    missingRole = new User("John Doe", "johndoe@example.com", "", "password1234");
+	}
+	
+	  @Test
+	  public void testValidRegistration() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, validUser1);
+	    assertTrue(result);
+	  }
+
+	  @Test
+	  public void testInvalidEmail() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, invalidEmail);
+	    assertFalse(result);
+	  }
+    
+	  @Test
+	  public void testValidRole() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, validUser1);
+	    assertTrue(result);
+	  }
+
+	  @Test
+	  public void testValidRole2() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, validUser2);
+	    assertTrue(result);
+	  }
+    
+	  @Test
+	  public void testValidRole3() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, validUser3);
+	    assertTrue(result);
+	  }
+
+	  @Test
+	  public void testWeakPassword() {
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, weakPw);
+	    assertFalse(result);
+	  }  
+	  
+	  @Test
+	  public void testRetrieveAllUser() {
+		// Test Case 1
+		// Test if Item list is not null and empty
+		assertNotNull("Test if there is valid User arraylist to add to", user);
+		assertEquals("Test that the User arraylist is empty.", 0, user.size());
+		// Attempt to retrieve the Users
+		String allUser = C206_CaseStudy.retrieveUsers(user);
+		String testOutput = "";
+		// Test if the output is empty
+		assertEquals("Test that nothing is displayed", testOutput, allUser);
+
+	    // Test Case 2
+	    C206_CaseStudy.addUser(user, validUser1);
+	    C206_CaseStudy.addUser(user, validUser2);
+	    // Test that the list is not empty
+	    assertEquals("Test that User arraylist size is 2.", 2, user.size());
+	    // Attempt to retrieve the Users
+	    allUser = C206_CaseStudy.retrieveUsers(user);
+
+	    // Create the expected output string with correct formatting
+	    testOutput = String.format("%-15s %-25s %-10s\n", "John Lim", "johnlim@example.com", "bidder");
+	    testOutput += String.format("%-15s %-25s %-10s\n", "John Doe", "johndoe@example.com", "administrator");
+
+	    // Remove leading/trailing whitespaces and compare ignoring leading/trailing
+	    // whitespaces
+	    assertEquals("Test that the display is correct.", testOutput.trim(), allUser.trim());
+
+	    // Test Case 3
+	    // missingName
+	    C206_CaseStudy userRegistration = new C206_CaseStudy();
+	    boolean result = userRegistration.addUser(user, missingName);
+	    assertFalse(result);
+
+	    // missing EmailnPw
+	    result = userRegistration.addUser(user, missEmailnPw);
+	    assertFalse(result);
+
+	    // missingRole
+	    result = userRegistration.addUser(user, missingRole);
+	    assertFalse(result);
+
+	   // Test case with all missing values
+	    User missingAll = new User("", "", "", "");
+	    result = userRegistration.addUser(user, missingAll);
+	    assertFalse(result);
+	  }
+
+	  @Test
+	  public void testDoDeleteUser() {
+		  assertNotNull("test if there is valid User arraylist to delete from", user);
+		  C206_CaseStudy.addUser(user, validUser1);
+		    
+		  //Test1 (delete valid user)
+		  Boolean result = C206_CaseStudy.doDeleteUser(user, validUser1.getEmail(), validUser1.getPassword());
+		  assertTrue("Test if an available item is ok to Delete?", result);
+		    
+		  //Test2 (delete user that has already been deleted)
+		  result = C206_CaseStudy.doDeleteUser(user, validUser1.getEmail(), validUser1.getPassword());
+		  assertFalse("Test if the same user is available to delete again", result);
+		    
+		  //Test3 (delete user that is non-existing)
+		  result = C206_CaseStudy.doDeleteUser(user, "maryjohnlim@gmail.com", "password123456789");
+		  assertFalse("Test that non-esiting user is NOT ok to delete?", result);
+
+	  }
+	  
+	  @After
+	  public void tearDown_user() throws Exception {
+	    user = null;
+	    validUser1 = null;
+	    validUser2 = null;
+	    validUser3 = null;
+	    invalidEmail = null;
+	    weakPw = null;
+	    missingName = null;
+	    missEmailnPw = null;
+	    missingRole = null;
+	  }
+
+
+	@Test
+	public void c206_test() {
+		//fail("Not yet implemented"); 
+		assertTrue("C206_CaseStudy_SampleTest ",true);
+	}
+	
+	@Before
+	public void setUp_auction() throws Exception {
 		a1 = new Auction("Jade", "made from pure material", 300, "19-07-1890", "A001", "don't overspend!", "09-09-2023", "5:00pm",
 				"8:00pm", 10, 5000);
 		a2 = new Auction("Art", "created by famous painter", 850, "20-07-1890", "A002", "don't overspend!", "10-09-2023", "6:00pm",
@@ -41,92 +185,19 @@ public class C206_CaseStudyTest {
 		
 		auctionList= new ArrayList<Auction>();
 	}
-
-    @Test
-    public void testInvalidEmail() {
-    	C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "invalidemail", "bidder", "password1234");
-        assertFalse(result);
-    }
-    
-    @Test
-    public void testValidRole() {
-		C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "password1234");
-        assertTrue(result);
-    }
-    
-    @Test
-    public void testValidRole1() {
-		C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "administrator", "password1234");
-        assertTrue(result);
-    }
-    
-    @Test
-    public void testValidRole2() {
-		C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "Auction Organizers", "password1234");
-        assertTrue(result);
-    }
->>>>>>> branch 'master' of https://github.com/22022345-ChewXuan/C206_CaseStudy.git
-
-<<<<<<< HEAD
-    private ArrayList<Items> itemsList;
-=======
-    @Test
-    public void testWeakPassword() {
-    	C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "bidder", "weak");
-        assertFalse(result);
-    }
-
-    @Test
-    public void testMissingName() {
-    	C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("", "johndoe@example.com", "bidder", "password1234");
-        assertFalse(result);
-    }
-
-    @Test
-    public void testMissingEmailAndPassword() {
-    	C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "", "bidder", "");
-        assertFalse(result);
-    }
-    
-    @Test
-    public void testMissingRole() {
-    	C206_CaseStudy userRegistration = new C206_CaseStudy();
-        boolean result = userRegistration.registerUser("John Doe", "johndoe@example.com", "", "password1234");
-        assertFalse(result);
-    }
-
->>>>>>> branch 'master' of https://github.com/22022345-ChewXuan/C206_CaseStudy.git
-
-<<<<<<< HEAD
-    public C206_CaseStudyTest() {
-        super();
-    }
-=======
-	@Test
-	public void c206_test() {
-		//fail("Not yet implemented"); 
-		assertTrue("C206_CaseStudy_SampleTest ",true);
-	}
 	
 	@Test
-	public void testAddCamcorder() {
-		// Item list is not null, so that can add a new item - boundary
+	public void testAddAuction() {
+		// Item list is not null, so that can add a new auction - boundary
 		assertNotNull("Check if there is valid Auction arraylist to add to", auctionList);
-		//Given an empty list, after adding 1 item, the size of the list is 1 - normal
-		//The item just added is as same as the first item of the list
+		//Given an auction list, after adding 1 auction, the size of the list is 1 - normal
+		//The auction just added is as same as the first auction of the list
 		C206_CaseStudy.addAuction(auctionList, a1);
 		assertEquals("Check that Auction arraylist size is 1", 1, auctionList.size());
 		assertSame("Check that Auction is added", a1, auctionList.get(0));
 		
-		//Add another item. test The size of the list is 2? -normal
-		//The item just added is as same as the second item of the list
+		//Add another auction. test The size of the list is 2? -normal
+		//The auction just added is as same as the second auction of the list
 		C206_CaseStudy.addAuction(auctionList, a2);
 		assertEquals("Check that Auction arraylist size is 2", 2, auctionList.size());
 		assertSame("Check that Auction is added", a2, auctionList.get(1));
@@ -134,7 +205,7 @@ public class C206_CaseStudyTest {
 	
 	@Test
 	public void testRetrieveAllAuction() {
-		// Test if Item list is not null but empty -boundary
+		// Test if auction list is not null but empty -boundary
 		assertNotNull("Test if there is valid Auction arraylist to retrieve item", auctionList);
 		
 		//test if the list of Auction retrieved from the caseStudy is empty - boundary
@@ -164,32 +235,30 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addAuction(auctionList, a1);
 		// normal
 		Boolean ok = C206_CaseStudy.doDeleteAuction(auctionList, "A001", "don't overspend!" );
-		assertTrue("Test if an available item is ok to loan?", ok);
+		assertTrue("Test if an available auction is ok to loan?", ok);
 		//error condition
 		ok = C206_CaseStudy.doDeleteAuction(auctionList, "A001", "don't overspend!" );
-		assertFalse("Test if an same item is NOT ok to loan again?", ok);	
+		assertFalse("Test if an same auction is NOT ok to loan again?", ok);	
 		//error condition
 		C206_CaseStudy.addAuction(auctionList, a2);	
 		a2.setIsAvailable(false);
 		ok = C206_CaseStudy.doDeleteAuction(auctionList, "A002", "don't overspend!" );
-		assertFalse("Test that un-available item is NOT ok to delete?", ok);
+		assertFalse("Test that un-available auction is NOT ok to delete?", ok);
 		//error condition
 		ok = C206_CaseStudy.doDeleteAuction(auctionList, "A002", "don't overspend!" );
-		assertFalse("Test that non-esiting item is NOT ok to delete?", ok);
+		assertFalse("Test that non-exisiting auction is NOT ok to delete?", ok);
 		
 	}
 	
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown_auction() throws Exception {
 		a1 = null;
 		a2 = null;
 		auctionList = null;
 	}
->>>>>>> branch 'master' of https://github.com/22022345-ChewXuan/C206_CaseStudy.git
 
-<<<<<<< HEAD
     @Before
-    public void setUp() throws Exception {
+    public void setUp_items() throws Exception {
         // prepare test data
         item1 = new Items(1, "Necklace", "Silver Long Necklace", 100, 10);
         item2 = new Items(2, "Gold Bar", "24K Gold", 100000, 100);
@@ -297,14 +366,13 @@ public class C206_CaseStudyTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown_items() throws Exception {
         item1 = null;
         item2 = null;
         item3 = null;
         itemsList = null;
     }
 }
-=======
-}
 
->>>>>>> branch 'master' of https://github.com/22022345-ChewXuan/C206_CaseStudy.git
+
+
