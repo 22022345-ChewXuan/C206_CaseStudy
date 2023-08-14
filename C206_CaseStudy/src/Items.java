@@ -5,7 +5,7 @@ public class Items {
 	private String description;
 	private double starting_bid;
 	private double minimum_bid_increment;
-	
+
 	public Items(int id, String name, String description, double starting_bid, double minimum_bid_increment) {
 		this.id = id;
 		this.name = name;
@@ -13,7 +13,7 @@ public class Items {
 		this.starting_bid = starting_bid;
 		this.minimum_bid_increment = minimum_bid_increment;
 	}
-	
+
 	public Items(String name, String description, double starting_bid, double minimum_bid_increment) {
 		this.name = name;
 		this.description = description;

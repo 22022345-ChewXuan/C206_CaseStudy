@@ -2,6 +2,7 @@
 // Version for AY2013/14 Sem 2
 
 import java.util.*;
+
 public class Helper {
 
 	static Scanner scan = new java.util.Scanner(System.in);
@@ -87,11 +88,11 @@ public class Helper {
 		boolean valid = false;
 		while (!valid) {
 			String input = readString(prompt);
-			if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")
-					|| input.equalsIgnoreCase("true") || input.equalsIgnoreCase("t")) {
+			if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y") || input.equalsIgnoreCase("true")
+					|| input.equalsIgnoreCase("t")) {
 				return true;
-			} else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n")
-					|| input.equalsIgnoreCase("false") || input.equalsIgnoreCase("f")) {
+			} else if (input.equalsIgnoreCase("no") || input.equalsIgnoreCase("n") || input.equalsIgnoreCase("false")
+					|| input.equalsIgnoreCase("f")) {
 				return false;
 			} else {
 				System.out.println("*** Please enter Yes/No or True/False ***");
@@ -225,13 +226,13 @@ public class Helper {
 		int years = getYear(latter) - getYear(former);
 
 		if (years > 0) {
-			if ((getMonth(former) > getMonth(latter)) || 
-					(getMonth(former) == getMonth(latter) && getDay(former) > getDay(latter))) {
+			if ((getMonth(former) > getMonth(latter))
+					|| (getMonth(former) == getMonth(latter) && getDay(former) > getDay(latter))) {
 				years -= 1;
 			}
 		} else if (years < 0) {
-			if ((getMonth(former) < getMonth(latter)) || 
-					(getMonth(former) == getMonth(latter) && getDay(former) < getDay(latter))) {
+			if ((getMonth(former) < getMonth(latter))
+					|| (getMonth(former) == getMonth(latter) && getDay(former) < getDay(latter))) {
 				years += 1;
 			}
 		}
@@ -239,8 +240,6 @@ public class Helper {
 	}
 
 	public static boolean sameDate(Date one, Date two) {
-		return getDay(one) == getDay(two) && getMonth(one) == getMonth(two)
-				&& getYear(one) == getYear(two);
+		return getDay(one) == getDay(two) && getMonth(one) == getMonth(two) && getYear(one) == getYear(two);
 	}
 }
-

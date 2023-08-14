@@ -13,11 +13,12 @@ public class Item {
 		this.manufactureDate = "";
 		this.isAvailable = true;
 	}
+
 	public String toString() {
-		
+
 		return null;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -29,7 +30,7 @@ public class Item {
 	public int getStartBid() {
 		return startBid;
 	}
-	
+
 	public void setManufactureDate(String manufactureDate) {
 		this.manufactureDate = manufactureDate;
 	}
